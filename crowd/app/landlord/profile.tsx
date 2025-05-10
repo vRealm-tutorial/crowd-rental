@@ -77,7 +77,10 @@ export default function LandlordProfileScreen() {
               {user?.email || "email@example.com"}
             </Text>
           </View>
-          <TouchableOpacity style={styles.editButton}>
+          <TouchableOpacity
+            style={styles.editButton}
+            // onPress={() => router.push("/landlord/edit-profile")}
+          >
             <Text style={styles.editButtonText}>Edit</Text>
           </TouchableOpacity>
         </View>

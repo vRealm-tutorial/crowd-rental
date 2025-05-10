@@ -120,12 +120,12 @@ const LoginScreen = () => {
         );
 
         // Navigate to OTP verification screen
-        setTimeout(() => {
-          router.push({
-            pathname: "/otp-verification",
-            params: { verificationType: "phone" },
-          });
-        }, 100);
+        // setTimeout(() => {
+        router.push({
+          pathname: "/otp-verification",
+          params: { verificationType: "phone" },
+        });
+        // }, 100);
       }
 
       // await login(loginParams);

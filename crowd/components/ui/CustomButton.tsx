@@ -7,6 +7,7 @@ import {
   StyleProp,
   ViewStyle,
   TextStyle,
+  GestureResponderEvent,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLOR_SCHEME } from "../../constants";
@@ -22,7 +23,7 @@ type ButtonSize = "small" | "medium" | "large";
 
 interface CustomButtonProps {
   title: string;
-  onPress: () => void;
+  onPress: (event: GestureResponderEvent) => void;
   type?: ButtonType;
   size?: ButtonSize;
   disabled?: boolean;

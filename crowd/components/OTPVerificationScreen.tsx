@@ -205,6 +205,10 @@ const OTPVerificationScreen = () => {
               maxLength={1}
               autoCapitalize="none"
               selectionColor={COLOR_SCHEME.PRIMARY}
+              accessible={true}
+              accessibilityLabel={`OTP digit ${index + 1} of 6`}
+              accessibilityHint="Enter a single digit"
+              importantForAccessibility="yes"
             />
           ))}
         </View>
@@ -212,7 +216,6 @@ const OTPVerificationScreen = () => {
         <TouchableOpacity
           style={[
             styles.verifyButton,
-            ,
             otpDigits.some((digit) => digit.trim() === "") &&
               styles.disabledButton,
           ]}

@@ -137,8 +137,8 @@ export const propertySchema = z.object({
   propertyType: z.enum(
     PROPERTY_TYPES.map((t) => t.value) as [PropertyType, ...PropertyType[]]
   ),
-  bedrooms: z.number().int().min(0, "Bedrooms must be a positive number"),
-  bathrooms: z.number().int().min(0, "Bathrooms must be a positive number"),
+  bedrooms: z.number().int().min(1, "Bedrooms must be at least 1"),
+  bathrooms: z.number().int().min(1, "Bathrooms must be at least 1"),
   size: z.number().positive("Size must be a positive number"),
   features: z.array(
     z.enum(

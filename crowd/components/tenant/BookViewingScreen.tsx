@@ -23,6 +23,7 @@ import useForm from "../../hooks/useForm";
 import { z } from "zod";
 import CustomButton from "../ui/CustomButton";
 import CustomInput from "../ui/CustomInput";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 // Define the navigation params for the tenant stack
 type TenantStackParamList = {
@@ -64,11 +65,10 @@ const bookingFormSchema = z.object({
   ),
 });
 
-const BookViewingScreen: React.FC<BookViewingScreenProps> = ({
-  navigation,
-  route,
-}) => {
-  const { propertyId } = route.params;
+const BookViewingScreen = () => {
+  const router = useRouter();
+  const params = useLocalSearchParams();
+  const propertyId = params.propertyId as string;
 
   const {
     fetchPropertyById,
@@ -141,7 +141,9 @@ const BookViewingScreen: React.FC<BookViewingScreenProps> = ({
           "Outside Working Hours",
           "Please select a time between 9 AM and 6 PM for property viewings."
         );
+        return;
       }
+      setFieldValue("time", selectedTime);
     }
   };
 
@@ -160,7 +162,10 @@ const BookViewingScreen: React.FC<BookViewingScreenProps> = ({
       });
 
       // Navigate to confirmation screen
-      navigation.replace("ViewingConfirmation", { viewingId: response._id });
+      router.push({
+        pathname: "/tenant/view-confirmation",
+        params: { viewingId: response._id },
+      });
     } catch (error: any) {
       Alert.alert(
         "Booking Failed",
@@ -206,7 +211,7 @@ const BookViewingScreen: React.FC<BookViewingScreenProps> = ({
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => navigation.goBack()}
+            onPress={() => router.back()}
           >
             <Ionicons name="arrow-back" size={24} color={COLOR_SCHEME.DARK} />
           </TouchableOpacity>

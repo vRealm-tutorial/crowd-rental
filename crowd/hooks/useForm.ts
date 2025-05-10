@@ -41,8 +41,20 @@ export function useForm<T extends Record<string, any>>({
     (field: keyof T, value: any) => {
       try {
         // Create a schema for just this field - safer approach that doesn't rely on .shape
-        const fieldSchema = z.object({ [field as string]: z.any() });
-        fieldSchema.parse({ [field]: value });
+        // const fieldSchema = z.object({ [field as string]: z.any() });
+        // fieldSchema.parse({ [field]: value });
+
+        if (schema instanceof z.ZodObject) {
+          const fieldSchema = z.object({
+            [field as string]: (schema.shape as Record<string, z.ZodTypeAny>)[
+              field as string
+            ],
+          });
+          fieldSchema.parse({ [field]: value });
+        } else {
+          // Fallback: validate whole form if schema isn't a ZodObject
+          schema.parse({ ...values, [field]: value });
+        }
 
         // Clear error if validation passes
         if (errors[field]) {

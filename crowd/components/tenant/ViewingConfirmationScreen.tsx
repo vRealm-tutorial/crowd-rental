@@ -9,6 +9,7 @@ import {
   ScrollView,
   Share,
   Platform,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,6 +18,7 @@ import { RouteProp } from "@react-navigation/native";
 import { COLOR_SCHEME } from "../../constants";
 import useBookingStore from "../../hooks/useBookingStore";
 import CustomButton from "../ui/CustomButton";
+import { formatViewingDateTime } from "@/utils/dateUtils";
 
 // Define the navigation params for the tenant stack
 type TenantStackParamList = {
@@ -46,26 +48,6 @@ const ViewingConfirmationScreen: React.FC<ViewingConfirmationScreenProps> = ({
     }
   }, [viewingId]);
 
-  // Format date and time
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-
-    const formattedDate = date.toLocaleDateString("en-GB", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-
-    const formattedTime = date.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
-
-    return { date: formattedDate, time: formattedTime };
-  };
-
   // Handle share viewing details
   const handleShare = async () => {
     if (!currentViewing) return;
@@ -76,7 +58,9 @@ const ViewingConfirmationScreen: React.FC<ViewingConfirmationScreenProps> = ({
         : null;
     if (!property) return;
 
-    const formattedDateTime = formatDate(currentViewing.scheduledDate);
+    const formattedDateTime = formatViewingDateTime(
+      currentViewing.scheduledDate
+    );
 
     try {
       await Share.share({
@@ -85,6 +69,11 @@ const ViewingConfirmationScreen: React.FC<ViewingConfirmationScreenProps> = ({
       });
     } catch (error) {
       console.error("Error sharing viewing details:", error);
+      Alert.alert(
+        "Sharing Failed",
+        "Unable to share the viewing details. Please try again later.",
+        [{ text: "OK" }]
+      );
     }
   };
 
@@ -115,7 +104,7 @@ const ViewingConfirmationScreen: React.FC<ViewingConfirmationScreenProps> = ({
     typeof currentViewing.property === "object"
       ? currentViewing.property
       : null;
-  const formattedDateTime = formatDate(currentViewing.scheduledDate);
+  const formattedDateTime = formatViewingDateTime(currentViewing.scheduledDate);
 
   return (
     <SafeAreaView style={styles.container}>

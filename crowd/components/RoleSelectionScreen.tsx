@@ -10,9 +10,9 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { COLOR_SCHEME, UserRoles } from "../constants";
 import { useRouter } from "expo-router";
+import RoleCard from "./roles/RoleCard";
 
 const RoleSelectionScreen = () => {
   const router = useRouter();
@@ -27,60 +27,6 @@ const RoleSelectionScreen = () => {
       });
     }
   };
-
-  // Role card component for each role option
-  interface RoleCardProps {
-    title: string;
-    description: string;
-    iconName: keyof typeof Ionicons.glyphMap;
-    role: UserRoles;
-  }
-
-  const RoleCard: React.FC<RoleCardProps> = ({
-    title,
-    description,
-    iconName,
-    role,
-  }) => (
-    <TouchableOpacity
-      style={[
-        styles.roleCard,
-        selectedRole === role && styles.selectedRoleCard,
-      ]}
-      onPress={() => setSelectedRole(role)}
-    >
-      <View style={styles.iconContainer}>
-        <Ionicons name={iconName} size={28} color={COLOR_SCHEME.PRIMARY} />
-      </View>
-      <View style={styles.roleInfo}>
-        <Text
-          style={[
-            styles.roleTitle,
-            selectedRole === role && styles.selectedRoleTitle,
-          ]}
-        >
-          {title}
-        </Text>
-        <Text
-          style={[
-            styles.roleDescription,
-            selectedRole === role && styles.selectedRoleDescription,
-          ]}
-        >
-          {description}
-        </Text>
-      </View>
-      <View style={styles.checkmark}>
-        {selectedRole === role && (
-          <Ionicons
-            name="checkmark-circle"
-            size={24}
-            color={COLOR_SCHEME.WHITE}
-          />
-        )}
-      </View>
-    </TouchableOpacity>
-  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -108,6 +54,8 @@ const RoleSelectionScreen = () => {
             description="I'm looking for a property to rent"
             iconName="search"
             role={UserRoles.TENANT}
+            selectedRole={selectedRole}
+            onSelect={setSelectedRole}
           />
 
           <RoleCard
@@ -115,6 +63,8 @@ const RoleSelectionScreen = () => {
             description="I want to list my property for rent"
             iconName="home"
             role={UserRoles.LANDLORD}
+            selectedRole={selectedRole}
+            onSelect={setSelectedRole}
           />
 
           <RoleCard
@@ -122,6 +72,8 @@ const RoleSelectionScreen = () => {
             description="I help connect tenants with landlords"
             iconName="people"
             role={UserRoles.AGENT}
+            selectedRole={selectedRole}
+            onSelect={setSelectedRole}
           />
         </View>
 
@@ -186,54 +138,6 @@ const styles = StyleSheet.create({
   },
   roleCardsContainer: {
     marginBottom: 20,
-  },
-  roleCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: COLOR_SCHEME.LIGHT,
-    borderRadius: 10,
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: COLOR_SCHEME.BORDER,
-  },
-  selectedRoleCard: {
-    backgroundColor: COLOR_SCHEME.PRIMARY,
-    borderColor: COLOR_SCHEME.PRIMARY,
-  },
-  iconContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: COLOR_SCHEME.WHITE,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 15,
-  },
-  roleInfo: {
-    flex: 1,
-  },
-  roleTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: COLOR_SCHEME.DARK,
-    marginBottom: 5,
-  },
-  selectedRoleTitle: {
-    color: COLOR_SCHEME.WHITE,
-  },
-  roleDescription: {
-    fontSize: 14,
-    color: COLOR_SCHEME.DARK,
-    opacity: 0.8,
-  },
-  selectedRoleDescription: {
-    color: COLOR_SCHEME.WHITE,
-    opacity: 0.9,
-  },
-  checkmark: {
-    width: 24,
-    height: 24,
   },
   infoContainer: {
     flexDirection: "row",

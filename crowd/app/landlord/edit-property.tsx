@@ -171,14 +171,25 @@ export default function EditPropertyScreen() {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
+    const bedroomsInt = parseInt(bedrooms, 10);
+    const bathroomsInt = parseInt(bedrooms, 10);
+
     if (!title.trim()) newErrors.title = "Title is required";
     if (!description.trim()) newErrors.description = "Description is required";
     if (!propertyType) newErrors.propertyType = "Property type is required";
     if (!bedrooms.trim()) newErrors.bedrooms = "Number of bedrooms is required";
+    if (Number.isNaN(bedroomsInt))
+      newErrors.bedrooms = "Enter a valid number for bedrooms";
     if (!bathrooms.trim())
       newErrors.bathrooms = "Number of bathrooms is required";
+    if (Number.isNaN(bathroomsInt))
+      newErrors.bedrooms = "Enter a valid number for bathrooms";
     if (!size.trim()) newErrors.size = "Property size is required";
+    if (Number.isNaN(size))
+      newErrors.bedrooms = "Enter a valid number for property size";
     if (!price.trim()) newErrors.price = "Price is required";
+    if (Number.isNaN(price))
+      newErrors.bedrooms = "Enter a valid number for property rate";
     if (!street.trim()) newErrors.street = "Street address is required";
     if (!area.trim()) newErrors.area = "Area is required";
     if (!city.trim()) newErrors.city = "City is required";

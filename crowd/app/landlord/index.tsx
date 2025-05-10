@@ -59,7 +59,11 @@ export default function LandlordPropertiesScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>My Properties</Text>
-        <TouchableOpacity style={styles.filterButton}>
+        <TouchableOpacity
+          style={styles.filterButton}
+          accessibilityLabel="Filter properties"
+          accessibilityRole="button"
+        >
           <Ionicons
             name="options-outline"
             size={24}
@@ -77,7 +81,12 @@ export default function LandlordPropertiesScreen() {
         <View style={styles.errorContainer}>
           <Ionicons name="alert-circle" size={60} color={COLOR_SCHEME.DANGER} />
           <Text style={styles.errorText}>{error}</Text>
-          <TouchableOpacity style={styles.retryButton} onPress={loadProperties}>
+          <TouchableOpacity
+            style={styles.retryButton}
+            onPress={loadProperties}
+            accessibilityLabel="Retry loading properties"
+            accessibilityRole="button"
+          >
             <Text style={styles.retryButtonText}>Retry</Text>
           </TouchableOpacity>
         </View>
@@ -96,6 +105,8 @@ export default function LandlordPropertiesScreen() {
           <TouchableOpacity
             style={styles.addButton}
             onPress={() => router.push("/landlord/add-property")}
+            accessibilityLabel="Add new property"
+            accessibilityRole="button"
           >
             <Ionicons name="add" size={20} color={COLOR_SCHEME.WHITE} />
             <Text style={styles.addButtonText}>Add New Property</Text>
@@ -143,6 +154,8 @@ export default function LandlordPropertiesScreen() {
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={() => router.push("/landlord/add-property")}
+        accessibilityLabel="Add new property"
+        accessibilityRole="button"
       >
         <Ionicons name="add" size={30} color={COLOR_SCHEME.WHITE} />
       </TouchableOpacity>

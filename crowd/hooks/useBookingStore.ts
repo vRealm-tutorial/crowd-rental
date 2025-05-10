@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import apiClient from "../services/api";
-import { ViewingStatus } from "../constants";
+import { UserRoles, ViewingStatus } from "../constants";
 
 // Types
 export interface Viewing {
@@ -191,7 +191,10 @@ const useBookingStore = create<BookingState>((set, get) => ({
       return response.data.data;
     } catch (error: any) {
       set({
-        error: error.response?.data?.error || "Failed to fetch viewings",
+        error:
+          error.response?.data?.error ||
+          error.message ||
+          "Failed to fetch viewings",
         isLoading: false,
       });
       throw error;
@@ -456,7 +459,13 @@ const useBookingStore = create<BookingState>((set, get) => ({
     try {
       // Choose the right endpoint based on user role
       // This could be enhanced to dynamically determine the endpoint based on the user's role
-      const endpoint = "/agent/viewings"; // Default to agent
+      const role = /* get().currentUser?.role */ "agent" as UserRoles;
+      const endpoint =
+        role === "landlord"
+          ? `/landlord/viewings`
+          : role === "tenant"
+          ? `/tenant/viewings`
+          : `/agent/viewings`;
 
       const response = await apiClient.put(`${endpoint}/${viewingId}`, {
         status,

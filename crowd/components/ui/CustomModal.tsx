@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLOR_SCHEME } from "../../constants";
@@ -111,7 +112,14 @@ const CustomModal: React.FC<CustomModalProps> = ({
                         onPress={button.onPress}
                         disabled={button.disabled || button.loading}
                       >
-                        <Text style={textStyle}>{button.text}</Text>
+                        {button.loading ? (
+                          <ActivityIndicator
+                            size="small"
+                            color={COLOR_SCHEME.WHITE}
+                          />
+                        ) : (
+                          <Text style={textStyle}>{button.text}</Text>
+                        )}
                       </TouchableOpacity>
                     );
                   })}

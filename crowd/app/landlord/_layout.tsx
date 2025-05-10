@@ -27,7 +27,12 @@ const LandlordLayout = () => {
         options={{
           title: "Properties",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color={color} />
+            <Ionicons
+              name="home"
+              size={size}
+              color={color}
+              accessibilityLabel="Properties"
+            />
           ),
         }}
       />
@@ -36,7 +41,12 @@ const LandlordLayout = () => {
         options={{
           title: "Add",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="add-circle" size={size} color={color} />
+            <Ionicons
+              name="add-circle"
+              size={size}
+              color={color}
+              accessibilityLabel="Add"
+            />
           ),
         }}
       />
@@ -45,7 +55,12 @@ const LandlordLayout = () => {
         options={{
           title: "Viewings",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="calendar" size={size} color={color} />
+            <Ionicons
+              name="calendar"
+              size={size}
+              color={color}
+              accessibilityLabel="Viewings"
+            />
           ),
         }}
       />
@@ -54,7 +69,12 @@ const LandlordLayout = () => {
         options={{
           title: "Income",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cash" size={size} color={color} />
+            <Ionicons
+              name="cash"
+              size={size}
+              color={color}
+              accessibilityLabel="Income"
+            />
           ),
         }}
       />
@@ -63,7 +83,12 @@ const LandlordLayout = () => {
         options={{
           title: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person" size={size} color={color} />
+            <Ionicons
+              name="person"
+              size={size}
+              color={color}
+              accessibilityLabel="Profile"
+            />
           ),
         }}
       />

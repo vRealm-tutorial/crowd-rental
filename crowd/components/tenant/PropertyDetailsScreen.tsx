@@ -12,38 +12,37 @@ import {
   Platform,
   Animated,
   Share,
+  Linking,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RouteProp } from "@react-navigation/native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { COLOR_SCHEME } from "../../constants";
 import usePropertyStore from "../../hooks/usePropertyStore";
 import useBookingStore from "../../hooks/useBookingStore";
 import CustomButton from "../ui/CustomButton";
 import CustomModal from "../ui/CustomModal";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 const { width, height } = Dimensions.get("window");
 
 // Define the navigation params for the tenant stack
-type TenantStackParamList = {
-  HomeMain: undefined;
-  PropertyDetails: { propertyId: string; propertyTitle?: string };
-  BookViewing: { propertyId: string };
-};
+// type TenantStackParamList = {
+//   HomeMain: undefined;
+//   PropertyDetails: { propertyId: string; propertyTitle?: string };
+//   BookViewing: { propertyId: string };
+// };
 
-// Define props type for the component
-type PropertyDetailsScreenProps = {
-  navigation: StackNavigationProp<TenantStackParamList, "PropertyDetails">;
-  route: RouteProp<TenantStackParamList, "PropertyDetails">;
-};
+// // Define props type for the component
+// type PropertyDetailsScreenProps = {
+//   navigation: StackNavigationProp<TenantStackParamList, "PropertyDetails">;
+//   route: RouteProp<TenantStackParamList, "PropertyDetails">;
+// };
 
-const PropertyDetailsScreen: React.FC<PropertyDetailsScreenProps> = ({
-  navigation,
-  route,
-}) => {
-  const { propertyId } = route.params;
+const PropertyDetailsScreen = () => {
+  const router = useRouter();
+  const params = useLocalSearchParams();
+  const propertyId = params.propertyId as string;
 
   const {
     fetchPropertyById,
@@ -71,7 +70,7 @@ const PropertyDetailsScreen: React.FC<PropertyDetailsScreenProps> = ({
     const fetchData = async () => {
       try {
         // Fetch the property details
-        await fetchPropertyById(propertyId);
+        await fetchPropertyById(propertyId as string);
 
         // Fetch saved properties to determine if this one is saved
         await fetchSavedProperties();
@@ -140,7 +139,10 @@ const PropertyDetailsScreen: React.FC<PropertyDetailsScreenProps> = ({
         setShowSubscriptionModal(true);
       } else {
         // Navigate to booking screen if subscription is active and has viewings left
-        navigation.navigate("BookViewing", { propertyId: currentProperty._id });
+        router.push({
+          pathname: "/book-viewing",
+          params: { propertyId: currentProperty._id },
+        });
       }
     } catch (error) {
       console.error("Error checking subscription:", error);
@@ -239,7 +241,7 @@ const PropertyDetailsScreen: React.FC<PropertyDetailsScreenProps> = ({
         <Text style={styles.errorText}>{error}</Text>
         <CustomButton
           title="Try Again"
-          onPress={() => fetchPropertyById(propertyId)}
+          onPress={() => fetchPropertyById(propertyId as string)}
           style={styles.tryAgainButton}
           size="small"
         />
@@ -257,7 +259,7 @@ const PropertyDetailsScreen: React.FC<PropertyDetailsScreenProps> = ({
         </Text>
         <CustomButton
           title="Go Back"
-          onPress={() => navigation.goBack()}
+          onPress={() => router.back()}
           style={styles.tryAgainButton}
           size="small"
         />
@@ -296,7 +298,7 @@ const PropertyDetailsScreen: React.FC<PropertyDetailsScreenProps> = ({
 
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => navigation.goBack()}
+            onPress={() => router.back()}
           >
             <Ionicons name="arrow-back" size={24} color={COLOR_SCHEME.WHITE} />
           </TouchableOpacity>
@@ -449,7 +451,17 @@ const PropertyDetailsScreen: React.FC<PropertyDetailsScreenProps> = ({
             <Text style={styles.agentName}>
               {currentProperty.agent ? "Contact Agent" : "Contact Landlord"}
             </Text>
-            <TouchableOpacity style={styles.callButton}>
+            <TouchableOpacity
+              style={styles.callButton}
+              onPress={() => {
+                Linking.openURL(
+                  `tel:${
+                    currentProperty.agent?.phone ??
+                    currentProperty.landlord?.phone
+                  }`
+                );
+              }}
+            >
               <Ionicons
                 name="call-outline"
                 size={14}

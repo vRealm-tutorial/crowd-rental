@@ -52,8 +52,9 @@ const RegisterScreen = () => {
 
   // Get role from navigation params or default to tenant
   const { role } = useLocalSearchParams();
+  const rawRole = Array.isArray(role) ? role[0] : role;
   const selectedRole =
-    ((Array.isArray(role) ? role[0] : role) as UserRoles) || UserRoles.TENANT;
+    UserRoles[rawRole as keyof typeof UserRoles] ?? UserRoles.TENANT;
 
   // Get auth store functions
   const {
@@ -95,7 +96,8 @@ const RegisterScreen = () => {
   // Show error alert if registration fails
   useEffect(() => {
     if (error) {
-      Alert.alert("Registration Failed", error);
+      Alert.alert("Registration Failed", error),
+        [{ text: "OK", onPress: clearError }];
     }
   }, [error]);
 

@@ -66,6 +66,7 @@ interface AuthState {
   }) => Promise<any>;
   logout: () => void;
   clearError: () => void;
+  refreshToken: () => Promise<boolean>;
 }
 
 const useAuthStore = create<AuthState>()(
@@ -158,6 +159,28 @@ const useAuthStore = create<AuthState>()(
             isLoading: false,
           });
           throw error;
+        }
+      },
+
+      refreshToken: async () => {
+        if (!get().token) return false;
+
+        try {
+          const response = await apiClient.post("/auth/refresh-token");
+          set({
+            token: response.data.token,
+            isAuthenticated: true,
+          });
+
+          // Update token in API client
+          apiClient.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${response.data.token}`;
+          return true;
+        } catch (error) {
+          // If refresh fails, log user out
+          get().logout();
+          return false;
         }
       },
 
@@ -287,7 +310,8 @@ const useAuthStore = create<AuthState>()(
       // Logout
       logout: () => {
         // Remove token from API client
-        delete apiClient.defaults.headers.common["Authorization"];
+        // delete apiClient.defaults.headers.common["Authorization"];
+        apiClient.defaults.headers.common["Authorization"] = undefined;
 
         set({
           token: null,

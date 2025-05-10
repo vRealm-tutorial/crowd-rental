@@ -16,7 +16,12 @@ const TenantLayout = () => {
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color={color} />
+            <Ionicons
+              name="home"
+              size={size}
+              color={color}
+              accessibilityLabel="Home"
+            />
           ),
         }}
       />
@@ -26,7 +31,12 @@ const TenantLayout = () => {
         options={{
           title: "Saved",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="heart" size={size} color={color} />
+            <Ionicons
+              name="heart"
+              size={size}
+              color={color}
+              accessibilityLabel="Saved"
+            />
           ),
         }}
       />
@@ -36,7 +46,12 @@ const TenantLayout = () => {
         options={{
           title: "Bookings",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="calendar" size={size} color={color} />
+            <Ionicons
+              name="calendar"
+              size={size}
+              color={color}
+              accessibilityLabel="Bookings"
+            />
           ),
         }}
       />
@@ -46,7 +61,12 @@ const TenantLayout = () => {
         options={{
           title: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person" size={size} color={color} />
+            <Ionicons
+              name="person"
+              size={size}
+              color={color}
+              accessibilityLabel="Profile"
+            />
           ),
         }}
       />

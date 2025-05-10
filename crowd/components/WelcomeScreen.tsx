@@ -11,25 +11,27 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { COLOR_SCHEME } from "../constants";
+import { useRouter } from "expo-router";
 
 const { width, height } = Dimensions.get("window");
 
 // Define the navigation params for the auth stack
-type AuthStackParamList = {
-  Welcome: undefined;
-  Login: undefined;
-  Register: undefined;
-  RoleSelection: undefined;
-};
+// type AuthStackParamList = {
+//   Welcome: undefined;
+//   Login: undefined;
+//   Register: undefined;
+//   RoleSelection: undefined;
+// };
 
-// Define props type for the component
-type WelcomeScreenProps = {
-  navigation: StackNavigationProp<AuthStackParamList, "Welcome">;
-};
+// // Define props type for the component
+// type WelcomeScreenProps = {
+//   navigation: StackNavigationProp<AuthStackParamList, "Welcome">;
+// };
 
-const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
+const WelcomeScreen = () => {
+  const router = useRouter();
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
@@ -68,14 +70,14 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.buttonPrimary}
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => router.push("/login")}
         >
           <Text style={styles.buttonPrimaryText}>Log In</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.buttonSecondary}
-          onPress={() => navigation.navigate("RoleSelection")}
+          onPress={() => router.push("/role-selection")}
         >
           <Text style={styles.buttonSecondaryText}>Create Account</Text>
         </TouchableOpacity>
@@ -83,7 +85,20 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>
-          By continuing, you agree to our Terms of Service and Privacy Policy
+          By continuing, you agree to our{" "}
+          <Text
+            style={[styles.footerText, { color: COLOR_SCHEME.PRIMARY }]}
+            onPress={() => router.push("/terms-of-service")}
+          >
+            Terms of Service
+          </Text>{" "}
+          and{" "}
+          <Text
+            style={[styles.footerText, { color: COLOR_SCHEME.PRIMARY }]}
+            onPress={() => router.push("/privacy-policy")}
+          >
+            Privacy Policy
+          </Text>
         </Text>
       </View>
     </SafeAreaView>

@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -145,7 +146,14 @@ export default function LandlordIncomeScreen() {
                     style={[
                       styles.monthBar,
                       {
-                        height: `${(item.amount / 250000) * 100}%`,
+                        // height: `${(item.amount / 250000) * 100}%`,
+                        height: `${
+                          (item.amount /
+                            Math.max(
+                              ...data.monthlyBreakdown.map((m) => m.amount)
+                            )) *
+                          100
+                        }%`,
                         backgroundColor:
                           item.amount > 0
                             ? COLOR_SCHEME.PRIMARY
@@ -153,7 +161,6 @@ export default function LandlordIncomeScreen() {
                       },
                     ]}
                   />
-                  // Continuing from app/landlord/income.tsx
                   <Text style={styles.monthLabel}>
                     {item.month.slice(0, 3)}
                   </Text>
@@ -228,7 +235,16 @@ export default function LandlordIncomeScreen() {
                 {formatCurrency(data.totalIncome - data.pendingAmount)}
               </Text>
             </View>
-            <TouchableOpacity style={styles.withdrawButton}>
+            <TouchableOpacity
+              style={styles.withdrawButton}
+              onPress={() => {
+                // TODO: Implement withdrawal functionality
+                Alert.alert(
+                  "Feature Coming Soon",
+                  "Withdrawal functionality will be available in the next update."
+                );
+              }}
+            >
               <Ionicons
                 name="cash-outline"
                 size={18}

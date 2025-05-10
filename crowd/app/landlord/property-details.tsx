@@ -41,7 +41,7 @@ export default function PropertyDetailsScreen() {
     if (propertyId) {
       fetchPropertyById(propertyId);
     }
-  }, [propertyId]);
+  }, [propertyId, fetchPropertyById]);
 
   // Format price with Nigerian Naira symbol
   const formatPrice = (price: number) => {
@@ -175,7 +175,7 @@ export default function PropertyDetailsScreen() {
         <View style={styles.imageCarouselContainer}>
           <FlatList
             ref={flatListRef}
-            data={currentProperty.images}
+            data={currentProperty.images ?? []}
             renderItem={({ item }) => (
               <Image source={{ uri: item.url }} style={styles.propertyImage} />
             )}
@@ -193,7 +193,7 @@ export default function PropertyDetailsScreen() {
 
           {/* Pagination dots */}
           <View style={styles.paginationDotsContainer}>
-            {currentProperty.images.map((_, index) => (
+            {(currentProperty.images ?? []).map((_, index) => (
               <View
                 key={index}
                 style={[

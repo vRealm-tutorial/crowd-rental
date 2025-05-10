@@ -72,6 +72,11 @@ const CustomInput: React.FC<CustomInputProps> = ({
           <TouchableOpacity
             style={styles.rightIcon}
             onPress={togglePasswordVisibility}
+            accessibilityRole="button"
+            accessibilityLabel={
+              passwordVisible ? "Hide password" : "Show password"
+            }
+            accessibilityHint="Toggles password visibility"
           >
             <Ionicons
               name={passwordVisible ? "eye-off" : "eye"}
@@ -81,7 +86,12 @@ const CustomInput: React.FC<CustomInputProps> = ({
           </TouchableOpacity>
         )}
         {rightIcon && !isPassword && (
-          <TouchableOpacity style={styles.rightIcon} onPress={onRightIconPress}>
+          <TouchableOpacity
+            style={styles.rightIcon}
+            onPress={onRightIconPress}
+            accessibilityRole="button"
+            accessibilityLabel={`${label} action button`}
+          >
             <Ionicons name={rightIcon} size={20} color={COLOR_SCHEME.DARK} />
           </TouchableOpacity>
         )}

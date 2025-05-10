@@ -46,6 +46,11 @@ export default function PropertyViewingsScreen() {
       ]);
     } catch (error) {
       console.error("Error fetching data:", error);
+      // Assuming useBookingStore has a setError function or similar
+      if (error instanceof Error) {
+        // Set error message for display in UI
+        // This depends on how error handling is implemented in your store
+      }
     }
   };
 
@@ -156,7 +161,7 @@ export default function PropertyViewingsScreen() {
         </View>
 
         <View style={styles.viewingFooter}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleViewingPress(item)}>
             <Ionicons
               name="chevron-forward"
               size={20}

@@ -16,7 +16,12 @@ const AgentLayout = () => {
         options={{
           title: "Properties",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color={color} />
+            <Ionicons
+              name="home"
+              size={size}
+              color={color}
+              accessibilityLabel="Properties"
+            />
           ),
         }}
       />
@@ -25,7 +30,12 @@ const AgentLayout = () => {
         options={{
           title: "Viewings",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="calendar" size={size} color={color} />
+            <Ionicons
+              name="calendar"
+              size={size}
+              color={color}
+              accessibilityLabel="Viewings"
+            />
           ),
         }}
       />
@@ -34,7 +44,12 @@ const AgentLayout = () => {
         options={{
           title: "Clients",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="people" size={size} color={color} />
+            <Ionicons
+              name="people"
+              size={size}
+              color={color}
+              accessibilityLabel="Clients"
+            />
           ),
         }}
       />
@@ -43,7 +58,12 @@ const AgentLayout = () => {
         options={{
           title: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person" size={size} color={color} />
+            <Ionicons
+              name="person"
+              size={size}
+              color={color}
+              accessibilityLabel="Profile"
+            />
           ),
         }}
       />

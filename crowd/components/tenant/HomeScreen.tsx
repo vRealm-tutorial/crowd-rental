@@ -9,12 +9,10 @@ import {
   Animated,
   Dimensions,
   TextInput,
-  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { COLOR_SCHEME } from "../../constants";
 import usePropertyStore, { Property } from "../../hooks/usePropertyStore";

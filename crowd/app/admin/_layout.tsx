@@ -16,7 +16,12 @@ const AdminLayout = () => {
         options={{
           title: "Dashboard",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="grid" size={size} color={color} />
+            <Ionicons
+              name="grid"
+              size={size}
+              color={color}
+              accessibilityLabel="Dashboard"
+            />
           ),
         }}
       />
@@ -25,7 +30,12 @@ const AdminLayout = () => {
         options={{
           title: "Users",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="people" size={size} color={color} />
+            <Ionicons
+              name="people"
+              size={size}
+              color={color}
+              accessibilityLabel="Users"
+            />
           ),
         }}
       />
@@ -34,7 +44,12 @@ const AdminLayout = () => {
         options={{
           title: "Properties",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color={color} />
+            <Ionicons
+              name="home"
+              size={size}
+              color={color}
+              accessibilityLabel="Properties"
+            />
           ),
         }}
       />
@@ -43,7 +58,12 @@ const AdminLayout = () => {
         options={{
           title: "Settings",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings" size={size} color={color} />
+            <Ionicons
+              name="settings"
+              size={size}
+              color={color}
+              accessibilityLabel="Settings"
+            />
           ),
         }}
       />

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import apiClient from "../services/api";
 import locationService from "../services/location";
 import { PropertyType, PropertyFeature } from "../constants";
+import { User } from "./useAuthStore";
 
 // Types
 export interface PropertyAddress {
@@ -27,8 +28,8 @@ export interface Property {
   _id: string;
   title: string;
   description: string;
-  landlord: string;
-  agent?: string;
+  landlord: User;
+  agent?: User;
   propertyType: PropertyType;
   bedrooms: number;
   bathrooms: number;
@@ -553,11 +554,12 @@ const usePropertyStore = create<PropertyState>((set, get) => ({
       }));
 
       // Fetch the next page of properties
-      const response = await fetchProperties();
+      const prev = [...get().properties]; // cache existing
+      const response = await fetchProperties(); // fetch next page
 
       // Append new properties to existing list
       set((state) => ({
-        properties: [...state.properties, ...response.data],
+        properties: [...prev, ...response.data], // append without losing history
       }));
 
       return response;

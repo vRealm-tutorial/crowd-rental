@@ -37,6 +37,8 @@ export default function LandlordViewingsScreen() {
       await fetchLandlordViewings();
     } catch (error) {
       console.error("Error fetching viewings:", error);
+      // Assuming useBookingStore has a setError function
+      // setError(error instanceof Error ? error.message : "Failed to load viewings");
     }
   };
 
@@ -87,6 +89,17 @@ export default function LandlordViewingsScreen() {
       minute: "2-digit",
       hour12: true,
     });
+  };
+
+  const handleConfirmViewing = async (viewing: Viewing) => {
+    try {
+      // Call your store function to update the viewing status
+      // await updateViewingStatus(viewing._id, ViewingStatus.CONFIRMED);
+      // Refresh the list after confirmation
+      await loadViewings();
+    } catch (error) {
+      console.error("Error confirming viewing:", error);
+    }
   };
 
   const renderViewingItem = ({ item }: { item: Viewing }) => {
@@ -149,7 +162,10 @@ export default function LandlordViewingsScreen() {
 
         <View style={styles.viewingCardFooter}>
           {item.status === ViewingStatus.PENDING && (
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => handleConfirmViewing(item)}
+            >
               <Ionicons
                 name="checkmark-circle"
                 size={16}
@@ -165,7 +181,7 @@ export default function LandlordViewingsScreen() {
               </Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleViewingPress(item)}>
             <Ionicons
               name="chevron-forward"
               size={20}

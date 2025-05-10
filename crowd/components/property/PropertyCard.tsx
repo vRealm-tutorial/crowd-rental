@@ -10,7 +10,6 @@ import {
   Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import { Property } from "../../hooks/usePropertyStore";
 import { COLOR_SCHEME } from "../../constants";
 
@@ -39,8 +38,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   isNearby = true,
   horizontal = false,
 }) => {
-  const navigation = useNavigation();
-
   // Find primary image or use first image
   const propertyImage =
     property.images?.find((img) => img.isPrimary)?.url ||

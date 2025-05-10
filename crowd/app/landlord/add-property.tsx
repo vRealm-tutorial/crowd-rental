@@ -89,13 +89,16 @@ export default function AddPropertyScreen() {
     });
 
     if (!pickerResult.canceled) {
-      const newImages = pickerResult.assets.map((asset) => ({
+      const remainingSlots = 10 - images.length;
+      const selected = pickerResult.assets.slice(0, remainingSlots);
+
+      const newImages = selected.map((asset) => ({
         uri: asset.uri,
-        type: "image/jpeg",
-        fileName: asset.uri.split("/").pop(),
+        type: asset.type ?? "image/jpeg",
+        fileName: asset.fileName ?? asset.uri.split("/").pop(),
       }));
 
-      setImages([...images, ...newImages]);
+      setImages((prev) => [...prev, ...newImages]);
 
       // Clear the error when images are added
       if (errors.images) {
@@ -118,11 +121,15 @@ export default function AddPropertyScreen() {
     if (!title.trim()) newErrors.title = "Title is required";
     if (!description.trim()) newErrors.description = "Description is required";
     if (!propertyType) newErrors.propertyType = "Property type is required";
-    if (!bedrooms.trim()) newErrors.bedrooms = "Number of bedrooms is required";
-    if (!bathrooms.trim())
-      newErrors.bathrooms = "Number of bathrooms is required";
-    if (!size.trim()) newErrors.size = "Property size is required";
-    if (!price.trim()) newErrors.price = "Price is required";
+    if (!bedrooms.trim() || isNaN(Number(bedrooms)) || Number(bedrooms) <= 0)
+      newErrors.bedrooms = "Enter a valid number of bedrooms";
+    if (!bathrooms.trim() || isNaN(Number(bathrooms)) || Number(bathrooms) <= 0)
+      newErrors.bathrooms = "Enter a valid number of bathrooms";
+
+    if (!size.trim() || isNaN(Number(size)) || Number(size) <= 0)
+      newErrors.size = "Enter a valid size";
+    if (!price.trim() || isNaN(Number(price)) || Number(price) <= 0)
+      newErrors.price = "Enter a valid price";
     if (!street.trim()) newErrors.street = "Street address is required";
     if (!area.trim()) newErrors.area = "Area is required";
     if (!city.trim()) newErrors.city = "City is required";
@@ -148,9 +155,9 @@ export default function AddPropertyScreen() {
         title,
         description,
         propertyType: propertyType as PropertyType,
-        bedrooms: parseInt(bedrooms),
-        bathrooms: parseInt(bathrooms),
-        size: parseFloat(size),
+        bedrooms: Number(bedrooms),
+        bathrooms: Number(bathrooms),
+        size: Number(size),
         features: selectedFeatures,
         address: {
           street,
@@ -163,11 +170,21 @@ export default function AddPropertyScreen() {
           },
         },
         price: {
-          amount: parseFloat(price),
+          amount: Number(price),
           currency: "NGN",
           paymentFrequency: "monthly",
         },
       };
+
+      for (const k of [
+        "bedrooms",
+        "bathrooms",
+        "size",
+        "price.amount",
+      ] as const) {
+        // @ts-ignore – simple runtime guard
+        if (isNaN(propertyData[k])) throw new Error("Invalid numeric field");
+      }
 
       const newProperty = await createProperty(propertyData);
 
